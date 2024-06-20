@@ -40,7 +40,7 @@ try:
                     dict_sc[code] += 1
 
             if (counter == 10):
-                print_msg(dict_sc, total_file_size)
+                print_metrics_message(dict_sc, total_file_size)
                 counter = 0
 
 finally:
