@@ -23,7 +23,7 @@ def validUTF8(data):
 
         ones = sum(takewhile(bool, byte))
         if ones >= 4:
-            return false
+            return False
         if ones <= 1:
             return False
 
