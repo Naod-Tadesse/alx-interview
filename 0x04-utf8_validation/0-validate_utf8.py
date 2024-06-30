@@ -22,11 +22,11 @@ def validUTF8(data):
             continue
 
         ones = sum(takewhile(bool, byte))
-       
+
         if ones <= 1:
             return False
         if ones >= 4:
-            return False;
+            return False
         for _ in range(ones - 1):
             try:
                 byte = next(bits)
