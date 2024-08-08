@@ -1,57 +1,27 @@
 #!/usr/bin/python3
-"""prime game module"""
+"""Prime game module.
+"""
 
 
 def isWinner(x, nums):
-    """identify the winner for th game"""
-    mariaWinsCount = 0
-    benWinsCount = 0
+    """identify winner for prime game"""
+    if x < 1 or not nums:
+        return None
+    marias_wins, bens_wins = 0, 0
 
-    for num in nums:
-        roundsSet = list(range(1, num + 1))
-        primesSet = primes_in_range(1, num)
-
-        if not primesSet:
-            benWinsCount += 1
+    n = max(nums)
+    primes = [True for _ in range(1, n + 1, 1)]
+    primes[0] = False
+    for i, is_prime in enumerate(primes, 1):
+        if i == 1 or not is_prime:
             continue
+        for j in range(i + i, n + 1, i):
+            primes[j - 1] = False
 
-        isMariaTurns = True
-
-        while (True):
-            if not primesSet:
-                if isMariaTurns:
-                    benWinsCount += 1
-                else:
-                    mariaWinsCount += 1
-                break
-
-            smallestPrime = primesSet.pop(0)
-            roundsSet.remove(smallestPrime)
-
-            roundsSet = [x for x in roundsSet if x % smallestPrime != 0]
-
-            isMariaTurns = not isMariaTurns
-
-    if mariaWinsCount > benWinsCount:
-        return "Winner: Maria"
-
-    if mariaWinsCount < benWinsCount:
-        return "Winner: Ben"
-
-    return None
-
-
-def is_prime(n):
-    """return boolean if prime or not"""
-    if n < 2:
-        return False
-    for i in range(2, int(n ** 0.5) + 1):
-        if n % i == 0:
-            return False
-    return True
-
-
-def primes_in_range(start, end):
-    """sends prime numbers in between"""
-    primes = [n for n in range(start, end+1) if is_prime(n)]
-    return primes
+    for _, n in zip(range(x), nums):
+        primes_count = len(list(filter(lambda x: x, primes[0: n])))
+        bens_wins += primes_count % 2 == 0
+        marias_wins += primes_count % 2 == 1
+    if marias_wins == bens_wins:
+        return None
+    return 'Maria' if marias_wins > bens_wins else 'Ben'
